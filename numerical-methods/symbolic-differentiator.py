@@ -15,42 +15,54 @@ class Lexer:
         self.rposition=0
 
     def Next_Token(self):
-        EOC=False # how do I check when EOC {End of Characters} ==True 
-        while EOC != True:
-            char=linput[lposition]
-            rposition+=1
+        while self.lposition<len(self.linput):
+            char=self.linput[self.lposition]
+            self.rposition+=1
             if (char.isdigit()):
-                peek_value=linput[rposition] """ Use peek value to check forward 1 step and if the 1 step is a digit grab 
-                                                 a chunk of rposition:rposition+2 and loop through to pick the digits and concatenate to char"""
-                if(peek_value.isdigit()):
-                    chunk=[]
-                    chunk=linput[rposition:rposition+2]
-                    for i in range(len(chunk)):
-                        if(chunk[i].isdigit()):
-                            char+=chunk[i] #concatenation
-                        else:
-                            break;  
-                lposition+=1 # incrememnt for lposition 
-                token=Token("integer",char)
-                token_list.append(token)        
+                if(self.rposition<len(self.linput)):
+                    peek_value=self.linput[self.rposition]
+                    if(peek_value.isdigit()):
+                        chunk=[]
+                        chunk=self.linput[self.rposition:self.rposition+2]
+                        for i in range(len(chunk)):
+                            if(chunk[i].isdigit()):
+                                char+=chunk[i] #concatenation
+                            else:
+                                break;  
+                        self.lposition+=1 # incrememnt for lposition 
+                        token=Token("integer",char)
+                        token_list.append(token)        
+                    else:
+                        token=Token("integer",char) # Next step: add to token list and increment lposition
+                        token_list.append(token)
+                        self.lposition+=1
                 else:
-                  # no more digits to grab
-                    token=Token("integer",char) # Next step: add to token list and increment lposition
-                    token_list.append(token)
+                    break
             elif(char.isalpha()):
                 token=Token("identifier",char)
                 token_list.append(token)
-                lposition+=1
-            elif(char=="+") or (char=="-") or (char=="*"):
+                self.lposition+=1
+            elif(char=="+") or (char=="-") or (char=="*") or (char=="="):
                 token=Token("symbol",char)
                 token_list.append(token)
-                lposition+=1
-            """ create the if statement to determine EOC {End of Characters} """
-            if (lposition==len(linput)) and (rposition>len(linput)):
-                EOC=True
+                self.lposition+=1
+            else:
+                self.lposition+=1 # incrememnt for lposition
 
 
-""" write the pytests for the above and also work on the parser and rule logic"""
+""" write the pytests for the above (tests done) and also work on the parser and Evaluator func logic"""
+
+class Parser:
+    def __init__(self):
+        self.current_label=current_label
+        self.left_content=left_content
+        self.right_content=right_content
+
+    def consume(self,Token_List):
+        while EOL!=True:
+            
+
+
 
 
 
